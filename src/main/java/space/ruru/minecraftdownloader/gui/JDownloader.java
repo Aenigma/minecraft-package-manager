@@ -16,9 +16,14 @@
 package space.ruru.minecraftdownloader.gui;
 
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.prefs.BackingStoreException;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.jdesktop.beansbinding.Binding;
 import space.ruru.minecraftdownloader.ConfigSingleton;
 
 /**
@@ -73,6 +78,7 @@ public class JDownloader extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         chkPkgBuilder = new javax.swing.JCheckBoxMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        btnClearSettings = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 200));
@@ -132,6 +138,15 @@ public class JDownloader extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        btnClearSettings.setText("Clear all settings");
+        btnClearSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearSettingsActionPerformed(evt);
+            }
+        });
+        jMenu2.add(btnClearSettings);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -232,6 +247,23 @@ public class JDownloader extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDownloadActionPerformed
 
+    private void btnClearSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSettingsActionPerformed
+        try {
+            System.out.println(config.getUrlBase());
+            config.clear();
+            System.out.println(config.getUrlBase());
+        } catch (BackingStoreException ex) {
+            JOptionPane.showMessageDialog(this, ex, "Problem Clearing Settings",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(JDownloader.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+        for (Binding b : bindingGroup.getBindings()) {
+            b.refreshAndNotify();
+            //b.saveAndNotify();
+        }
+    }//GEN-LAST:event_btnClearSettingsActionPerformed
+
     /**
      * @param args the command line arguments
      * @throws javax.swing.UnsupportedLookAndFeelException
@@ -249,6 +281,7 @@ public class JDownloader extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuild;
     private javax.swing.JButton btnBuildDir;
+    private javax.swing.JMenuItem btnClearSettings;
     private javax.swing.JButton btnDownload;
     private javax.swing.JButton btnMinecraftDir;
     private javax.swing.JCheckBoxMenuItem chkPkgBuilder;

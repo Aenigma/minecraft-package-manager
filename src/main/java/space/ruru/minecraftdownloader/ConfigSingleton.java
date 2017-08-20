@@ -27,24 +27,36 @@ import java.util.prefs.Preferences;
  */
 public class ConfigSingleton {
 
+    private static final String DEFAULT_MINECRAFT_DIR;
+    private static final Path DEFAULT_PACKAGE_DIR;
+    private static final String DEFAULT_URL_BASE;
+
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
-
-    private static final Path DEFAULT_PACKAGE_DIR = Paths.get(
-            "C:/Users/Kevin/projects/minecraftdownloader");
-
-    private static final String DEFAULT_URL_BASE
-            = "https://example.com/downloads/";
-
-    final Preferences pref = Preferences.userNodeForPackage(
-            ConfigSingleton.class);
-
     private static final String VERSION = "0.0.1";
 
-    public ConfigSingleton() {
+    static {
+        final String appLoc = Optional.ofNullable(System.getenv("APPDATA"))
+                .orElse(System.getProperty("user.home"));
+        final Path appPath = Paths.get(appLoc);
+
+        DEFAULT_PACKAGE_DIR = appPath.resolve(".minecraft-package-manager");
+
+        DEFAULT_MINECRAFT_DIR = appPath
+                .resolve(".minecraft")
+                .toAbsolutePath()
+                .toString();
+
+        DEFAULT_URL_BASE = "https://s3.amazonaws.com/minecraftclientmods/";
     }
 
     public static ConfigSingleton getInstance() {
         return SINGLETON;
+    }
+
+    final Preferences pref = Preferences.userNodeForPackage(
+            ConfigSingleton.class);
+
+    public ConfigSingleton() {
     }
 
     public String getPackageDir() {
@@ -74,15 +86,7 @@ public class ConfigSingleton {
     }
 
     public String getMinecraftDirectory() {
-        final String appLoc = Optional.ofNullable(System.getenv("APPDATA"))
-                .orElse(System.getProperty("user.home"));
-
-        final String defaultMcDir = Paths.get(appLoc)
-                .resolve(".minecraft")
-                .toAbsolutePath()
-                .toString();
-
-        return pref.get("MINECRAFT_DIR", defaultMcDir);
+        return pref.get("MINECRAFT_DIR", DEFAULT_MINECRAFT_DIR);
     }
 
     public void setMinecraftDirectory(String dir) {
