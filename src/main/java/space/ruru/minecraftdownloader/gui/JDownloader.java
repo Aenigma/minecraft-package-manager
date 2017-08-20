@@ -15,10 +15,12 @@
  */
 package space.ruru.minecraftdownloader.gui;
 
+import java.awt.Component;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.JTextComponent;
 import space.ruru.minecraftdownloader.ConfigSingleton;
 
 /**
@@ -26,6 +28,22 @@ import space.ruru.minecraftdownloader.ConfigSingleton;
  * @author Russell Gilmore
  */
 public class JDownloader extends javax.swing.JFrame {
+
+    static void directoryChooser(JTextComponent text, Component component) {
+        final JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(text.getText()));
+        chooser.setDialogTitle("Select a directory");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(component) == JFileChooser.APPROVE_OPTION) {
+            File p = chooser.getSelectedFile()
+                    .getAbsoluteFile();
+            text.setText(chooser.getSelectedFile()
+                    .getAbsoluteFile()
+                    .toString());
+        }
+    }
 
     /**
      * Creates new form JDownloader
@@ -204,20 +222,7 @@ public class JDownloader extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMinecraftDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinecraftDirActionPerformed
-        final JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File(this.jTextFieldDestinationDir
-                .getText()));
-        //chooser.setDialogTitle(choosertitle);
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        chooser.setAcceptAllFileFilterUsed(false);
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File p = chooser.getSelectedFile()
-                    .getAbsoluteFile();
-            this.jTextFieldDestinationDir.setText(chooser.getSelectedFile()
-                    .getAbsoluteFile()
-                    .toString());
-        }
+        directoryChooser(this.jTextFieldDestinationDir, this);
     }//GEN-LAST:event_btnMinecraftDirActionPerformed
 
     private void chkPkgBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPkgBuilderActionPerformed
@@ -225,7 +230,7 @@ public class JDownloader extends javax.swing.JFrame {
     }//GEN-LAST:event_chkPkgBuilderActionPerformed
 
     private void btnBuildDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildDirActionPerformed
-        // TODO add your handling code here:
+        directoryChooser(this.txtBuild, this);
     }//GEN-LAST:event_btnBuildDirActionPerformed
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
