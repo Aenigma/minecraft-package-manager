@@ -181,8 +181,10 @@
     <Component class="javax.swing.JButton" name="btnBuild">
       <Properties>
         <Property name="text" type="java.lang.String" value="Build"/>
-        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuildActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.Box$Filler" name="filler1">
       <Properties>
