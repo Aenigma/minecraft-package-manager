@@ -6,8 +6,16 @@
 package space.ruru.minecraftdownloader.gui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.prefs.Preferences;
 import javax.swing.JFileChooser;
 
@@ -20,7 +28,7 @@ public class JDownloader extends javax.swing.JFrame {
     private final Preferences minecraftDestinationPref;
     private final Preferences URLSourcePref;
 
-    private File p;
+    private File desintionPath;
     private URL source;
 
     /**
@@ -138,9 +146,9 @@ public class JDownloader extends javax.swing.JFrame {
 
         chooser.setAcceptAllFileFilterUsed(false);
         if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            p = chooser.getSelectedFile().getAbsoluteFile();
+            desintionPath = chooser.getSelectedFile().getAbsoluteFile();
             this.jTextFieldDestinationDir.setText(chooser.getSelectedFile().getAbsoluteFile().toString());
-            this.minecraftDestinationPref.put("LAST_OUTPUT_DIR", this.p.getAbsolutePath());
+            this.minecraftDestinationPref.put("LAST_OUTPUT_DIR", this.desintionPath.getAbsolutePath());
 
         } else {
             this.jTextFieldDestinationDir.setText("No Selection");
@@ -154,7 +162,23 @@ public class JDownloader extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldDestinationDirActionPerformed
 
     private void jButtonBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildActionPerformed
-
+        ReadableByteChannel rbc = null;
+        FileOutputStream fos = null;
+        try {
+            rbc = Channels.newChannel(this.source.openStream());
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            fos = new FileOutputStream("minecraftclientmods.xml");
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonBuildActionPerformed
 
     private void jTextFieldSourceURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSourceURLActionPerformed
@@ -163,6 +187,11 @@ public class JDownloader extends javax.swing.JFrame {
 
     private void jButtonSourceURLConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSourceURLConfirmActionPerformed
         this.URLSourcePref.put("LAST_OUTPUT_URL", this.jTextFieldSourceURL.getText());
+        try {
+            this.source = new URL(this.jTextFieldSourceURL.getText());
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButtonSourceURLConfirmActionPerformed
 
     /**
