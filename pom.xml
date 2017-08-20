@@ -34,7 +34,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>acme.filetraverser.Driver</mainClass>
+                            <mainClass>space.ruru.minecraftdownloader.gui.JDownloader</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
