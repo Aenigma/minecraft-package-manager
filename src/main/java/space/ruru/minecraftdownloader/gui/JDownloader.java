@@ -28,6 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.jdesktop.beansbinding.Binding;
 import javax.swing.text.JTextComponent;
+import space.ruru.minecraftdownloader.AWSDownloader;
 import space.ruru.minecraftdownloader.ConfigSingleton;
 import space.ruru.minecraftdownloader.DownloadPackageBuilder;
 
@@ -120,7 +121,11 @@ public class JDownloader extends javax.swing.JFrame {
         bindingGroup.addBinding(binding);
 
         btnBuild.setText("Build");
-        btnBuild.setEnabled(false);
+        btnBuild.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuildActionPerformed(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Package URL");
@@ -268,7 +273,12 @@ public class JDownloader extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuildDirActionPerformed
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
-        // TODO add your handling code here:
+        AWSDownloader downloader = new AWSDownloader();
+        try {
+            downloader.downloadKey();
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnDownloadActionPerformed
 
     private void btnClearSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearSettingsActionPerformed
@@ -287,6 +297,16 @@ public class JDownloader extends javax.swing.JFrame {
             //b.saveAndNotify();
         }
     }//GEN-LAST:event_btnClearSettingsActionPerformed
+
+    private void btnBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildActionPerformed
+        try {
+            DownloadPackageBuilder build = new DownloadPackageBuilder();
+            build.buildPackage();
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnBuildActionPerformed
 
     /**
      * @param args the command line arguments
