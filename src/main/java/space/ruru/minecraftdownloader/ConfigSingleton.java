@@ -18,6 +18,7 @@ package space.ruru.minecraftdownloader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 /**
@@ -88,4 +89,7 @@ public class ConfigSingleton {
         pref.put("MINECRAFT_DIR", dir);
     }
 
+    public void clear() throws BackingStoreException {
+        pref.clear();
+    }
 }
