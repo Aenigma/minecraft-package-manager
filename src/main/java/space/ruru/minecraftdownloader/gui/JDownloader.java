@@ -28,6 +28,7 @@ import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import space.ruru.minecraftdownloader.ConfigSingleton;
+import space.ruru.minecraftdownloader.DownloadPackageBuilder;
 
 /**
  *
@@ -165,24 +166,32 @@ public class JDownloader extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldDestinationDirActionPerformed
 
     private void jButtonBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildActionPerformed
-        ReadableByteChannel rbc = null;
-        FileOutputStream fos = null;
+        
+        DownloadPackageBuilder build = new DownloadPackageBuilder();
+        try {
+            build.buildPackage();
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        try {
-            rbc = Channels.newChannel(new URL(config.getUrlBase()).openStream());
-        } catch (IOException ex) {
-            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            fos = new FileOutputStream("minecraftclientmods.xml");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-        } catch (IOException ex) {
-            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        ReadableByteChannel rbc = null;
+//        FileOutputStream fos = null;
+//        try {
+//            rbc = Channels.newChannel(new URL(config.getUrlBase()).openStream());
+//        } catch (IOException ex) {
+//            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            fos = new FileOutputStream("minecraftclientmods.xml");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+//        } catch (IOException ex) {
+//            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
     }//GEN-LAST:event_jButtonBuildActionPerformed
 
     private void jTextFieldSourceURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSourceURLActionPerformed

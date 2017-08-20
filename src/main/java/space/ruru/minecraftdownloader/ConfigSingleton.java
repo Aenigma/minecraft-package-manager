@@ -30,7 +30,7 @@ public class ConfigSingleton {
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
 
     private static final Path DEFAULT_PACKAGE_DIR = Paths.get(
-            "C:/Users/Kevin/projects/minecraftdownloader");
+            "C:/Users/Russell/AppData/Roaming/.minecraft/mods");
 
     private static final String DEFAULT_URL_BASE
             = "https://example.com/downloads/";

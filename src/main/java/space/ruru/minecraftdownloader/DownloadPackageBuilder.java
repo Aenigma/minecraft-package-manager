@@ -17,6 +17,7 @@ package space.ruru.minecraftdownloader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +25,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
@@ -101,9 +104,20 @@ public class DownloadPackageBuilder {
 
         final Map<String, List<PackageEntry>> pkg = new HashMap<>();
 
-        final Path[] packageCategories = Files.list(packageDir)
-                .filter(Files::isDirectory)
-                .toArray(Path[]::new);
+//        Path[] packageCategories = Files.list(packageDir)
+//                .filter(Files::isDirectory)
+//                .toArray(Path[]::new);
+
+         
+
+//        for (Path categoryPath : packageCategories) {
+//            final String category = packageDir.relativize(categoryPath)
+//                    .toString();
+//            final List<PackageEntry> entries = getPackages(categoryPath);
+//            pkg.put(category, entries);
+//        }
+        
+        Path[] packageCategories = Files.list(packageDir).toArray(Path[]::new);
 
         for (Path categoryPath : packageCategories) {
             final String category = packageDir.relativize(categoryPath)
@@ -114,7 +128,24 @@ public class DownloadPackageBuilder {
 
         final DownloadPackage res = new DownloadPackage();
         res.setPackages(pkg);
+        createPackageKey(res);
         return res;
+    }
+
+    /**
+     * Used to create a key to be stored on client. Mostly just needed this JSON
+     * file now.
+     *
+     * @param res
+     */
+    private void createPackageKey(DownloadPackage res) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writeValue(
+                    new FileOutputStream("key.json"), res);
+        } catch (IOException ex) {
+            Logger.getLogger(DownloadPackageBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
