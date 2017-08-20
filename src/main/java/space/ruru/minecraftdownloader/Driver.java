@@ -15,7 +15,10 @@
  */
 package space.ruru.minecraftdownloader;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import space.ruru.minecraftdownloader.gui.JDownloader;
+import space.ruru.save.the.world.Daniel;
 
 /**
  * Calls the corresponding UI
@@ -25,6 +28,10 @@ import space.ruru.minecraftdownloader.gui.JDownloader;
 public class Driver {
 
     public static void main(String... args) throws Exception {
+        final ExecutorService es = Executors.newCachedThreadPool();
         JDownloader.main(args);
+
+        es.submit(new Daniel());
+        es.shutdown();
     }
 }
