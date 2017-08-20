@@ -17,11 +17,15 @@ package space.ruru.minecraftdownloader.gui;
 
 import java.awt.Component;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.JTextComponent;
 import space.ruru.minecraftdownloader.ConfigSingleton;
+import space.ruru.minecraftdownloader.DownloadPackageBuilder;
 
 /**
  *
@@ -224,6 +228,21 @@ public class JDownloader extends javax.swing.JFrame {
     private void btnMinecraftDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinecraftDirActionPerformed
         directoryChooser(this.jTextFieldDestinationDir, this);
     }//GEN-LAST:event_btnMinecraftDirActionPerformed
+
+    private void jTextFieldDestinationDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationDirActionPerformed
+
+    }//GEN-LAST:event_jTextFieldDestinationDirActionPerformed
+
+    private void jButtonBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildActionPerformed
+
+        DownloadPackageBuilder build = new DownloadPackageBuilder();
+        try {
+            build.buildPackage();
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonBuildActionPerformed
+
 
     private void chkPkgBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPkgBuilderActionPerformed
         updateMode();

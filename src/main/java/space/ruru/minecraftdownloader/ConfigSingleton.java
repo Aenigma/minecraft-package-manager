@@ -30,7 +30,7 @@ public class ConfigSingleton {
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
 
     private static final Path DEFAULT_PACKAGE_DIR = Paths.get(
-            "C:/Users/Kevin/projects/minecraftdownloader");
+            "C:/Users/Russe/AppData/Roaming/.minecraft-package-manager");
 
     private static final String DEFAULT_URL_BASE
             = "https://example.com/downloads/";
@@ -50,7 +50,7 @@ public class ConfigSingleton {
     public String getPackageDir() {
         return pref.get("PACKAGING_DIR",
                 DEFAULT_PACKAGE_DIR.toAbsolutePath()
-                .toString());
+                        .toString());
     }
 
     public void setPackageDir(String packageDir) {
