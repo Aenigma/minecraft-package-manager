@@ -17,6 +17,7 @@ package space.ruru.minecraftdownloader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 /**
@@ -69,6 +70,22 @@ public class ConfigSingleton {
 
     public String getVersion() {
         return VERSION;
+    }
+
+    public String getMinecraftDirectory() {
+        final String appLoc = Optional.ofNullable(System.getenv("APPDATA"))
+                .orElse(System.getProperty("user.home"));
+
+        final String defaultMcDir = Paths.get(appLoc)
+                .resolve(".minecraft")
+                .toAbsolutePath()
+                .toString();
+
+        return pref.get("MINECRAFT_DIR", defaultMcDir);
+    }
+
+    public void setMinecraftDirectory(String dir) {
+        pref.put("MINECRAFT_DIR", dir);
     }
 
 }
