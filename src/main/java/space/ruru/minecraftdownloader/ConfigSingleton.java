@@ -27,29 +27,48 @@ public class ConfigSingleton {
 
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
 
-    private final Path DEFAULT_PACKAGE_DIR = Paths.get(
+    private static final Path DEFAULT_PACKAGE_DIR = Paths.get(
             "C:/Users/Kevin/projects/minecraftdownloader");
 
-    private final String DEFAULT_URL_BASE = "https://example.com/downloads/";
+    private static final String DEFAULT_URL_BASE
+            = "https://example.com/downloads/";
 
-    public final String packageDir;
-    public final String urlBase;
-    public final Path packagePath;
-    public final String version = "0.0.1";
+    final Preferences pref = Preferences.userNodeForPackage(
+            ConfigSingleton.class);
+
+    private static final String VERSION = "0.0.1";
 
     private ConfigSingleton() {
-        final Preferences pref = Preferences.userNodeForPackage(
-                ConfigSingleton.class);
-
-        this.urlBase = pref.get("URL_BASE", DEFAULT_URL_BASE);
-        this.packageDir = pref.get("PACKAGING_DIR",
-                DEFAULT_PACKAGE_DIR.toAbsolutePath()
-                .toString());
-        this.packagePath = Paths.get(packageDir);
     }
 
     public static ConfigSingleton getInstance() {
         return SINGLETON;
+    }
+
+    public String getPackageDir() {
+        return pref.get("PACKAGING_DIR",
+                DEFAULT_PACKAGE_DIR.toAbsolutePath()
+                .toString());
+    }
+
+    public void setPackageDir(String packageDir) {
+        pref.put("PACKAGING_DIR", packageDir);
+    }
+
+    public String getUrlBase() {
+        return pref.get("URL_BASE", DEFAULT_URL_BASE);
+    }
+
+    public void setUrlBase(String urlBase) {
+        pref.put("URL_BASE", urlBase);
+    }
+
+    public Path getPackagePath() {
+        return Paths.get(getPackageDir());
+    }
+
+    public String getVersion() {
+        return VERSION;
     }
 
 }

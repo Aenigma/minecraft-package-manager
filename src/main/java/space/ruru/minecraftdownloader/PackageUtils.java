@@ -31,8 +31,8 @@ public class PackageUtils {
 
     private final ConfigSingleton config = ConfigSingleton.getInstance();
 
-    private final Path packageDir = config.packagePath;
-    private final String urlBase = config.urlBase;
+    private final Path packageDir = config.getPackagePath();
+    private final String urlBase = config.getUrlBase();
 
     private String generateUrl(Path entry) {
         String relativePath = getRelativePath(entry);

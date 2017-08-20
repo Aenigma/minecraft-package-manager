@@ -37,7 +37,7 @@ public class DownloadPackage {
     }
 
     public String getVersion() {
-        return config.version;
+        return config.getVersion();
     }
 
     @Override

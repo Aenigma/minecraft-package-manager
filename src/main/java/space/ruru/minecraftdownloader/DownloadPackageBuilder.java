@@ -69,8 +69,8 @@ public class DownloadPackageBuilder {
     }
 
     public DownloadPackageBuilder() {
-        this.packageDir = config.packagePath;
-        this.urlBase = config.urlBase;
+        this.packageDir = config.getPackagePath();
+        this.urlBase = config.getUrlBase();
     }
 
     /**
