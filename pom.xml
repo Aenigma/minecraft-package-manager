@@ -9,6 +9,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <driverClass>space.ruru.minecraftdownloader.Driver</driverClass>
     </properties>
     
     <dependencies>
@@ -45,7 +46,7 @@
     
     <build>
         <plugins>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -53,11 +54,12 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>space.ruru.minecraftdownloader.Driver</mainClass>
+                            <mainClass>${driverClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -69,7 +71,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>space.ruru.minecraftdownloader.Driver</mainClass>
+                            <mainClass>${driverClass}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
