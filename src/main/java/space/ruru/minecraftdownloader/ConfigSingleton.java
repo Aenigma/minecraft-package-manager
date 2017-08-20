@@ -40,7 +40,7 @@ public class ConfigSingleton {
 
     private static final String VERSION = "0.0.1";
 
-    private ConfigSingleton() {
+    public ConfigSingleton() {
     }
 
     public static ConfigSingleton getInstance() {
