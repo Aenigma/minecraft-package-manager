@@ -15,16 +15,8 @@
  */
 package space.ruru.minecraftdownloader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -32,89 +24,25 @@ import java.util.stream.Collectors;
  */
 public class DownloadPackage {
 
-    public static void main(String... args) throws IOException {
-        final Map<String, List<PackageEntry>> buildPackage
-                = new DownloadPackage().buildPackage();
-
-        ObjectMapper om = new ObjectMapper();
-
-        String json = om.writerWithDefaultPrettyPrinter()
-                .writeValueAsString(buildPackage);
-
-        System.out.println(json);
-        System.out.println(buildPackage);
-    }
-
     private final ConfigSingleton config = ConfigSingleton.getInstance();
 
-    /**
-     * Absolute path to where the package data is fetched to build a package
-     */
-    final Path packageDir;
+    private Map<String, List<PackageEntry>> packages;
 
-    /**
-     * The URL base in which the packages are located
-     */
-    final String urlBase;
-
-    private final PackageUtils pu = new PackageUtils();
-
-    private DownloadPackage(Path packageDir, String urlBase) {
-        this.packageDir = packageDir;
-        this.urlBase = urlBase;
+    public Map<String, List<PackageEntry>> getPackages() {
+        return packages;
     }
 
-    private DownloadPackage(String packageDir, String urlBase) {
-        this(Paths.get(packageDir), urlBase);
+    public void setPackages(Map<String, List<PackageEntry>> packages) {
+        this.packages = packages;
     }
 
-    public DownloadPackage() {
-        this.packageDir = config.packagePath;
-        this.urlBase = config.urlBase;
+    public String getVersion() {
+        return config.getVersion();
     }
 
-    /**
-     *
-     * @param entry path to file to generate URL version of
-     * @return
-     */
-    String generateUrl(Path entry) {
-        String relativePath = this.packageDir.relativize(entry)
-                .toString();
-
-        if (File.separator.equals("\\")) {
-            relativePath = relativePath.replace("\\", "/");
-        }
-
-        return urlBase + relativePath;
-    }
-
-    public List<PackageEntry> getPackages(Path categoryPath) throws IOException {
-        final List<PackageEntry> entries = Files.walk(categoryPath)
-                .filter(Files::isRegularFile)
-                .map((p) -> {
-                    return pu.newInstance(p);
-                })
-                .collect(Collectors.toList());
-        return entries;
-    }
-
-    public Map<String, List<PackageEntry>> buildPackage() throws IOException {
-
-        final Map<String, List<PackageEntry>> pkg = new HashMap<>();
-
-        final Path[] packageCategories = Files.list(packageDir)
-                .filter(Files::isDirectory)
-                .toArray(Path[]::new);
-
-        for (Path categoryPath : packageCategories) {
-            final String category = packageDir.relativize(categoryPath)
-                    .toString();
-            final List<PackageEntry> entries = getPackages(categoryPath);
-            pkg.put(category, entries);
-        }
-
-        return pkg;
+    @Override
+    public String toString() {
+        return "DownloadPackage{" + "packages=" + packages + '}';
     }
 
 }

@@ -17,6 +17,7 @@ package space.ruru.minecraftdownloader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.prefs.Preferences;
 
 /**
@@ -27,28 +28,64 @@ public class ConfigSingleton {
 
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
 
-    private final Path DEFAULT_PACKAGE_DIR = Paths.get(
+    private static final Path DEFAULT_PACKAGE_DIR = Paths.get(
             "C:/Users/Kevin/projects/minecraftdownloader");
 
-    private final String DEFAULT_URL_BASE = "https://example.com/downloads/";
+    private static final String DEFAULT_URL_BASE
+            = "https://example.com/downloads/";
 
-    public final String packageDir;
-    public final String urlBase;
-    public final Path packagePath;
+    final Preferences pref = Preferences.userNodeForPackage(
+            ConfigSingleton.class);
+
+    private static final String VERSION = "0.0.1";
 
     private ConfigSingleton() {
-        final Preferences pref = Preferences.userNodeForPackage(
-                ConfigSingleton.class);
-
-        this.urlBase = pref.get("URL_BASE", DEFAULT_URL_BASE);
-        this.packageDir = pref.get("PACKAGING_DIR",
-                DEFAULT_PACKAGE_DIR.toAbsolutePath()
-                .toString());
-        this.packagePath = Paths.get(packageDir);
     }
 
     public static ConfigSingleton getInstance() {
         return SINGLETON;
+    }
+
+    public String getPackageDir() {
+        return pref.get("PACKAGING_DIR",
+                DEFAULT_PACKAGE_DIR.toAbsolutePath()
+                .toString());
+    }
+
+    public void setPackageDir(String packageDir) {
+        pref.put("PACKAGING_DIR", packageDir);
+    }
+
+    public String getUrlBase() {
+        return pref.get("URL_BASE", DEFAULT_URL_BASE);
+    }
+
+    public void setUrlBase(String urlBase) {
+        pref.put("URL_BASE", urlBase);
+    }
+
+    public Path getPackagePath() {
+        return Paths.get(getPackageDir());
+    }
+
+    public String getVersion() {
+        return VERSION;
+    }
+
+    public String getMinecraftDirectory() {
+        final String appLoc = Optional.ofNullable(System.getenv("APPDATA"))
+                .orElse(System.getProperty("user.home"));
+
+        final String defaultMcDir = Paths.get(appLoc)
+                .resolve(".minecraft")
+                .toAbsolutePath()
+                .toString();
+
+        return pref.get("MINECRAFT_DIR", defaultMcDir);
+    }
+
+    public void setMinecraftDirectory(String dir) {
+        pref.put("MINECRAFT_DIR", dir);
     }
 
 }
