@@ -15,22 +15,43 @@
  */
 package space.ruru.minecraftdownloader.gui;
 
+import java.awt.Component;
 import java.io.File;
+
+import java.util.prefs.BackingStoreException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.prefs.BackingStoreException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.jdesktop.beansbinding.Binding;
+import javax.swing.text.JTextComponent;
 import space.ruru.minecraftdownloader.ConfigSingleton;
+import space.ruru.minecraftdownloader.DownloadPackageBuilder;
 
 /**
  *
  * @author Russell Gilmore
  */
 public class JDownloader extends javax.swing.JFrame {
+
+    static void directoryChooser(JTextComponent text, Component component) {
+        final JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(text.getText()));
+        chooser.setDialogTitle("Select a directory");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+        chooser.setAcceptAllFileFilterUsed(false);
+        if (chooser.showOpenDialog(component) == JFileChooser.APPROVE_OPTION) {
+            File p = chooser.getSelectedFile()
+                    .getAbsoluteFile();
+            text.setText(chooser.getSelectedFile()
+                    .getAbsoluteFile()
+                    .toString());
+        }
+    }
 
     /**
      * Creates new form JDownloader
@@ -219,28 +240,31 @@ public class JDownloader extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnMinecraftDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinecraftDirActionPerformed
-        final JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File(this.jTextFieldDestinationDir
-                .getText()));
-        //chooser.setDialogTitle(choosertitle);
-        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        chooser.setAcceptAllFileFilterUsed(false);
-        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            File p = chooser.getSelectedFile()
-                    .getAbsoluteFile();
-            this.jTextFieldDestinationDir.setText(chooser.getSelectedFile()
-                    .getAbsoluteFile()
-                    .toString());
-        }
+        directoryChooser(this.jTextFieldDestinationDir, this);
     }//GEN-LAST:event_btnMinecraftDirActionPerformed
+
+    private void jTextFieldDestinationDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationDirActionPerformed
+
+    }//GEN-LAST:event_jTextFieldDestinationDirActionPerformed
+
+    private void jButtonBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildActionPerformed
+
+        DownloadPackageBuilder build = new DownloadPackageBuilder();
+        try {
+            build.buildPackage();
+        } catch (IOException ex) {
+            Logger.getLogger(JDownloader.class.getName())
+                    .log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonBuildActionPerformed
+
 
     private void chkPkgBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPkgBuilderActionPerformed
         updateMode();
     }//GEN-LAST:event_chkPkgBuilderActionPerformed
 
     private void btnBuildDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildDirActionPerformed
-        // TODO add your handling code here:
+        directoryChooser(this.txtBuild, this);
     }//GEN-LAST:event_btnBuildDirActionPerformed
 
     private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed

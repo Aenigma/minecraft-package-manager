@@ -30,7 +30,7 @@ public class ConfigSingleton {
     private static final String DEFAULT_MINECRAFT_DIR;
     private static final Path DEFAULT_PACKAGE_DIR;
     private static final String DEFAULT_URL_BASE;
-
+    
     private static final ConfigSingleton SINGLETON = new ConfigSingleton();
     private static final String VERSION = "0.0.1";
 
@@ -62,7 +62,7 @@ public class ConfigSingleton {
     public String getPackageDir() {
         return pref.get("PACKAGING_DIR",
                 DEFAULT_PACKAGE_DIR.toAbsolutePath()
-                .toString());
+                        .toString());
     }
 
     public void setPackageDir(String packageDir) {
