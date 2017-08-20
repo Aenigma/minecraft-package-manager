@@ -36,19 +36,26 @@ import space.ruru.minecraftdownloader.DownloadPackageBuilder;
  */
 public class JDownloader extends javax.swing.JFrame {
 
-    private final ConfigSingleton config = ConfigSingleton.getInstance();
-
     /**
      * Creates new form JDownloader
      */
     public JDownloader() {
         initComponents();
+        updateMode();
+    }
 
-        String lastInputDir = config.getMinecraftDirectory();
-        String lastInputURL = config.getUrlBase();
+    /**
+     * Reads the state of the build mode check box and uses it to determine what
+     * components to enable
+     */
+    private void updateMode() {
+        final boolean builderMode = chkPkgBuilder.getState();
 
-        this.jTextFieldDestinationDir.setText(lastInputDir);
-        this.jTextFieldSourceURL.setText(lastInputURL);
+        btnBuildDir.setEnabled(builderMode);
+        btnMinecraftDir.setEnabled(!builderMode);
+
+        btnBuild.setEnabled(builderMode);
+        btnDownload.setEnabled(!builderMode);
     }
 
     /**
@@ -59,49 +66,84 @@ public class JDownloader extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        JButtonDestinationDir = new javax.swing.JButton();
+        btnMinecraftDir = new javax.swing.JButton();
         jTextFieldDestinationDir = new javax.swing.JTextField();
-        jButtonSourceURLConfirm = new javax.swing.JButton();
         jTextFieldSourceURL = new javax.swing.JTextField();
-        jButtonBuild = new javax.swing.JButton();
+        btnBuild = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+        jLabel1 = new javax.swing.JLabel();
+        btnBuildDir = new javax.swing.JButton();
+        txtBuild = new javax.swing.JTextField();
+        btnDownload = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        chkPkgBuilder = new javax.swing.JCheckBoxMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(500, 200));
 
-        JButtonDestinationDir.setText("Minecraft Directory");
-        JButtonDestinationDir.addActionListener(new java.awt.event.ActionListener() {
+        btnMinecraftDir.setText("Minecraft Directory");
+        btnMinecraftDir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                JButtonDestinationDirActionPerformed(evt);
+                btnMinecraftDirActionPerformed(evt);
             }
         });
 
-        jTextFieldDestinationDir.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldDestinationDir.setEditable(false);
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, config, org.jdesktop.beansbinding.ELProperty.create("${minecraftDirectory}"), jTextFieldDestinationDir, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, config, org.jdesktop.beansbinding.ELProperty.create("${urlBase}"), jTextFieldSourceURL, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        btnBuild.setText("Build");
+        btnBuild.setEnabled(false);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Package URL");
+
+        btnBuildDir.setText("Build Directory");
+        btnBuildDir.setEnabled(false);
+        btnBuildDir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldDestinationDirActionPerformed(evt);
+                btnBuildDirActionPerformed(evt);
             }
         });
 
-        jButtonSourceURLConfirm.setText("Confirm Source");
-        jButtonSourceURLConfirm.addActionListener(new java.awt.event.ActionListener() {
+        txtBuild.setEditable(false);
+
+        binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, config, org.jdesktop.beansbinding.ELProperty.create("${packageDir}"), txtBuild, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        bindingGroup.addBinding(binding);
+
+        btnDownload.setText("Download");
+        btnDownload.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSourceURLConfirmActionPerformed(evt);
+                btnDownloadActionPerformed(evt);
             }
         });
 
-        jTextFieldSourceURL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldSourceURLActionPerformed(evt);
-            }
-        });
+        jMenu1.setText("File");
 
-        jButtonBuild.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButtonBuild.setText("Build");
-        jButtonBuild.addActionListener(new java.awt.event.ActionListener() {
+        chkPkgBuilder.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.ALT_MASK));
+        chkPkgBuilder.setText("Package Builder Mode");
+        chkPkgBuilder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuildActionPerformed(evt);
+                chkPkgBuilderActionPerformed(evt);
             }
         });
+        jMenu1.add(chkPkgBuilder);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,39 +151,68 @@ public class JDownloader extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonSourceURLConfirm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JButtonDestinationDir))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextFieldDestinationDir)
-                    .addComponent(jTextFieldSourceURL))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnMinecraftDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnBuildDir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 354, Short.MAX_VALUE)
+                                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldSourceURL, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldDestinationDir, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtBuild)))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnBuild, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(279, Short.MAX_VALUE)
-                .addComponent(jButtonBuild, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(256, 256, 256))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(JButtonDestinationDir)
-                    .addComponent(jTextFieldDestinationDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSourceURLConfirm)
-                    .addComponent(jTextFieldSourceURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonBuild)
-                .addContainerGap(23, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextFieldSourceURL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnMinecraftDir)
+                            .addComponent(jTextFieldDestinationDir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBuildDir)
+                            .addComponent(txtBuild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnBuild)
+                                .addComponent(btnDownload))
+                            .addComponent(filler1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
+
+        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void JButtonDestinationDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JButtonDestinationDirActionPerformed
+    private void btnMinecraftDirActionPerformed(java.awt.event.ActionEvent evt) {
         final JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(this.jTextFieldDestinationDir
                 .getText()));
@@ -156,17 +227,16 @@ public class JDownloader extends javax.swing.JFrame {
             this.jTextFieldDestinationDir.setText(chooser.getSelectedFile()
                     .getAbsoluteFile()
                     .toString());
-            String absolutePath = p.getAbsolutePath();
-            config.setMinecraftDirectory(absolutePath);
         }
-    }//GEN-LAST:event_JButtonDestinationDirActionPerformed
+
+    }
 
     private void jTextFieldDestinationDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDestinationDirActionPerformed
 
     }//GEN-LAST:event_jTextFieldDestinationDirActionPerformed
 
     private void jButtonBuildActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuildActionPerformed
-        
+
         DownloadPackageBuilder build = new DownloadPackageBuilder();
         try {
             build.buildPackage();
@@ -194,13 +264,18 @@ public class JDownloader extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButtonBuildActionPerformed
 
-    private void jTextFieldSourceURLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSourceURLActionPerformed
 
-    }//GEN-LAST:event_jTextFieldSourceURLActionPerformed
+    private void chkPkgBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPkgBuilderActionPerformed
+        updateMode();
+    }//GEN-LAST:event_chkPkgBuilderActionPerformed
 
-    private void jButtonSourceURLConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSourceURLConfirmActionPerformed
-        config.setUrlBase(this.jTextFieldSourceURL.getText());
-    }//GEN-LAST:event_jButtonSourceURLConfirmActionPerformed
+    private void btnBuildDirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuildDirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuildDirActionPerformed
+
+    private void btnDownloadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDownloadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDownloadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,10 +292,21 @@ public class JDownloader extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton JButtonDestinationDir;
-    private javax.swing.JButton jButtonBuild;
-    private javax.swing.JButton jButtonSourceURLConfirm;
+    private javax.swing.JButton btnBuild;
+    private javax.swing.JButton btnBuildDir;
+    private javax.swing.JButton btnDownload;
+    private javax.swing.JButton btnMinecraftDir;
+    private javax.swing.JCheckBoxMenuItem chkPkgBuilder;
+    private final space.ruru.minecraftdownloader.ConfigSingleton config = ConfigSingleton.getInstance();
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JTextField jTextFieldDestinationDir;
     private javax.swing.JTextField jTextFieldSourceURL;
+    private javax.swing.JTextField txtBuild;
+    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
