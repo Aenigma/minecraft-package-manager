@@ -35,6 +35,7 @@ public class ConfigSingleton {
     public final String packageDir;
     public final String urlBase;
     public final Path packagePath;
+    public final String version = "0.0.1";
 
     private ConfigSingleton() {
         final Preferences pref = Preferences.userNodeForPackage(
