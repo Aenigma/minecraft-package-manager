@@ -17,6 +17,8 @@ package space.ruru.minecraftdownloader.gui;
 
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import space.ruru.minecraftdownloader.ConfigSingleton;
 
 /**
@@ -167,9 +169,13 @@ public class JDownloader extends javax.swing.JFrame {
 
     /**
      * @param args the command line arguments
+     * @throws javax.swing.UnsupportedLookAndFeelException
+     * @throws java.lang.ReflectiveOperationException
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) throws
+            UnsupportedLookAndFeelException, ReflectiveOperationException {
         /* Create and display the form */
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         java.awt.EventQueue.invokeLater(() -> {
             new JDownloader().setVisible(true);
         });
