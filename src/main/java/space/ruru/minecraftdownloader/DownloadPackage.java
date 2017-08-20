@@ -92,9 +92,7 @@ public class DownloadPackage {
     public List<PackageEntry> getPackages(Path categoryPath) throws IOException {
         final List<PackageEntry> entries = Files.walk(categoryPath)
                 .filter(Files::isRegularFile)
-                .map((p) -> {
-                    return pu.newInstance(p);
-                })
+                .map(pu::newInstance)
                 .collect(Collectors.toList());
         return entries;
     }
