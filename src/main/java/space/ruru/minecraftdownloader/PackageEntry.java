@@ -29,6 +29,9 @@ public final class PackageEntry {
         this.digest = digest;
     }
 
+    public PackageEntry() {
+    }
+
     public String getUrl() {
         return url;
     }

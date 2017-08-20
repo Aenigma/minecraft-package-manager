@@ -27,6 +27,11 @@ public class DownloadPackage {
     private final ConfigSingleton config = ConfigSingleton.getInstance();
 
     private Map<String, List<PackageEntry>> packages;
+    private String version;
+
+    public DownloadPackage() {
+        this.version = config.getVersion();
+    }
 
     public Map<String, List<PackageEntry>> getPackages() {
         return packages;
@@ -36,8 +41,12 @@ public class DownloadPackage {
         this.packages = packages;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public String getVersion() {
-        return config.getVersion();
+        return this.version;
     }
 
     @Override
