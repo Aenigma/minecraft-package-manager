@@ -104,20 +104,9 @@ public class DownloadPackageBuilder {
 
         final Map<String, List<PackageEntry>> pkg = new HashMap<>();
 
-//        Path[] packageCategories = Files.list(packageDir)
-//                .filter(Files::isDirectory)
-//                .toArray(Path[]::new);
-
-         
-
-//        for (Path categoryPath : packageCategories) {
-//            final String category = packageDir.relativize(categoryPath)
-//                    .toString();
-//            final List<PackageEntry> entries = getPackages(categoryPath);
-//            pkg.put(category, entries);
-//        }
-        
-        Path[] packageCategories = Files.list(packageDir).toArray(Path[]::new);
+        final Path[] packageCategories = Files.list(packageDir)
+                .filter(Files::isDirectory)
+                .toArray(Path[]::new);
 
         for (Path categoryPath : packageCategories) {
             final String category = packageDir.relativize(categoryPath)
