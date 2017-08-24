@@ -54,11 +54,17 @@ public class JDownloader extends javax.swing.JFrame {
         }
     }
 
+    static void getJob() {
+
+    }
+
     /**
      * Creates new form JDownloader
      */
     public JDownloader() {
+
         initComponents();
+        setDaniel();
         updateMode();
     }
 
@@ -96,6 +102,7 @@ public class JDownloader extends javax.swing.JFrame {
         btnBuildDir = new javax.swing.JButton();
         txtBuild = new javax.swing.JTextField();
         btnDownload = new javax.swing.JButton();
+        jLabelDaniel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         chkPkgBuilder = new javax.swing.JCheckBoxMenuItem();
@@ -149,6 +156,9 @@ public class JDownloader extends javax.swing.JFrame {
                 btnDownloadActionPerformed(evt);
             }
         });
+
+        jLabelDaniel.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabelDaniel.setText("Daniel, You need a fricken job.");
 
         jMenu1.setText("File");
 
@@ -209,6 +219,10 @@ public class JDownloader extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDownload, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelDaniel)
+                .addGap(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +244,9 @@ public class JDownloader extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnBuildDir)
                             .addComponent(txtBuild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(jLabelDaniel)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnBuild)
@@ -263,6 +279,14 @@ public class JDownloader extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonBuildActionPerformed
 
+    private void setDaniel() {
+        this.jLabelDaniel.setVisible(false);
+        String username = System.getProperty("user.name");
+        final String NAME = "daniel";
+        if (username.toLowerCase().contains(NAME)) {
+            this.jLabelDaniel.setVisible(true);
+        }
+    }
 
     private void chkPkgBuilderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPkgBuilderActionPerformed
         updateMode();
@@ -305,7 +329,7 @@ public class JDownloader extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(JDownloader.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnBuildActionPerformed
 
     /**
@@ -333,6 +357,7 @@ public class JDownloader extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelDaniel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
